@@ -1,0 +1,19 @@
+{
+  "name": "sf-fetcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "maker.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "sys": "^0.0.1",
+    "child_process": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
