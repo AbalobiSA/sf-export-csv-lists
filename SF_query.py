@@ -11,9 +11,9 @@ EXCLUDE_TEMP_USERS = True
 DEBUG = False
 
 # Please remember to input your details here:
-SALESFORCE_USER = ""
-SALESFORCE_PWORD = ""
-SALESFORCE_SEC_TOKEN = ""
+SALESFORCE_USER = "carl@techairos.com"
+SALESFORCE_PWORD = "sPy8uFXuzWOIMHN4XTp4"
+SALESFORCE_SEC_TOKEN = "kSVsVOI2BRgmphDrKDslmiwL"
 
 # ====================================================
 #   Query Method
@@ -176,12 +176,12 @@ with open('List_Fishers.csv', 'wb') as csvfile:
                     record['Name'],
                     record['primary_community__c']])
             # For loop ends here, write end of file
-            wr.writerow([
-                "not_on_list",
-                "Other (not on list)",
-                "Ander (nie op lys nie)",
-                notOnList
-            ])
+            # wr.writerow([
+            #     "not_on_list",
+            #     "Other (not on list)",
+            #     "Ander (nie op lys nie)",
+            #     notOnList
+            # ])
         print 'Writing Complete!\r\n'
 
         # Generate Not on list, add spaces
