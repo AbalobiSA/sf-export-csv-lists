@@ -1,3 +1,5 @@
 *.csv
 node_modules/
 *.zip
+secrets.py
+secrets.pyc

@@ -1,6 +1,12 @@
 from simple_salesforce import Salesforce
 import getpass
 import csv
+try:
+    import secrets
+    PROMPT_FOR_SECRETS = False
+except ImportError:
+    PROMPT_FOR_SECRETS = True
+
 # ====================================================
 #   BOOLEAN SWITCHES & VARIABLES
 # ====================================================
@@ -10,17 +16,12 @@ EXCLUDE_TEMP_USERS = True
 # Output debug text? Default: False
 DEBUG = False
 
-# Please remember to input your details here:
-SALESFORCE_USER = "carl@techairos.com"
-SALESFORCE_PWORD = "sPy8uFXuzWOIMHN4XTp4"
-SALESFORCE_SEC_TOKEN = "kSVsVOI2BRgmphDrKDslmiwL"
-
 # ====================================================
 #   Query Method
 # ====================================================
 def run_soql_query(sfs, soql_query):
     try:
-        print 'Running query...'
+        print '---------------\r\nRunning query...'
         sf_result = sfs.query_all(soql_query)
         records = sf_result['records']
         num_records = sf_result['totalSize']
@@ -36,14 +37,16 @@ def run_soql_query(sfs, soql_query):
 
 
 def connect_to_salesforce():
-    user = SALESFORCE_USER
-    passwd = SALESFORCE_PWORD
-    sec_token = SALESFORCE_SEC_TOKEN
-    # user = raw_input("Username:")
-    # passwd = getpass.getpass("Password for " + user + ":")
-    # sec_token = getpass.getpass("Security token:")
+    if PROMPT_FOR_SECRETS:
+        user = raw_input("Username:")
+        passwd = getpass.getpass("Password for " + user + ":")
+        sec_token = getpass.getpass("Security token:")
+    else:
+        user = secrets.SALESFORCE_USER
+        passwd = secrets.SALESFORCE_PWORD
+        sec_token = secrets.SALESFORCE_SEC_TOKEN
 
-    print 'Connecting to SF...'
+    print 'Connecting to SF with username: ' + user + '...'
     sfc = Salesforce(username=user, password=passwd,
                      security_token=sec_token)
 
@@ -153,10 +156,11 @@ for record in records:
 # Actually start the normal query now
 
 if (EXCLUDE_TEMP_USERS):
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c FROM User WHERE abalobi_usertype__c = 'fisher' AND (NOT abalobi_id__c LIKE '%tmp%')"
+    query_text = "SELECT abalobi_id__c,Name,primary_community__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%' AND (NOT abalobi_usertype__c LIKE '%manager%') AND (NOT abalobi_id__c LIKE '%tmp%')"
     print "Excluding temporary users!"
 else:
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c FROM User WHERE abalobi_usertype__c = 'fisher'"
+    query_text = "SELECT abalobi_id__c,Name,primary_community__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%' AND (NOT abalobi_usertype__c LIKE '%manager%')"
+
 
 result, num_records, records = run_soql_query(sfc, query_text)
 
