@@ -11,6 +11,12 @@ Clone the repo:
 
     $ git clone https://github.com/AbalobiSA/sf-export-csv-lists.git
 
+Set up your dev environment:
+
+    $ wget https://bootstrap.pypa.io/get-pip.py
+    $ python get-pip.py
+    $ python -m pip install simple_salesforce
+
 Then, make the magic happen:
 
     $ python SF_query.py
