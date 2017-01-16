@@ -67,7 +67,7 @@ result, num_records, records = run_soql_query(sfc, query_text)
 # csv_writer = csv.writer('tempfile.csv', delimiter=',')
 # wr = csv.writer(test.csv, delimiter=',')
 
-with open('List_BaitTypes.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_BaitTypes.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_BaitTypes.csv ...'
@@ -94,7 +94,7 @@ with open('List_BaitTypes.csv', 'wb') as csvfile:
 query_text = 'SELECT Name,name_afr__c,name_eng__c,trip_type__c FROM Ablb_Catch_Method__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
-with open('List_CatchMethods.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_CatchMethods.csv ...'
@@ -120,7 +120,7 @@ with open('List_CatchMethods.csv', 'wb') as csvfile:
 query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c FROM Ablb_Community__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
-with open('List_Communities.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_Communities.csv ...'
@@ -164,7 +164,7 @@ else:
 
 result, num_records, records = run_soql_query(sfc, query_text)
 
-with open('List_Fishers.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_Fishers.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_Fishers.csv ...'
@@ -214,7 +214,7 @@ def getNameFromID(lookupID):
 
 
 
-with open('List_LandingSites.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_LandingSites.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_LandingSites.csv ...'
@@ -240,7 +240,7 @@ with open('List_LandingSites.csv', 'wb') as csvfile:
 query_text = 'SELECT Name,name_afr__c,name_eng__c FROM Ablb_No_Trip_Reason__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
-with open('List_NoTrip_Reasons.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_NoTrip_Reasons.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_NoTrip_Reasons.csv ...'
@@ -264,7 +264,7 @@ with open('List_NoTrip_Reasons.csv', 'wb') as csvfile:
 query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c FROM Ablb_Species__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
-with open('List_Species.csv', 'wb') as csvfile:
+with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     if (result is not None) & (num_records > 0):
         print '\nWRITING List_Species.csv ...'
