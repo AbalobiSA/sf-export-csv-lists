@@ -156,10 +156,12 @@ for record in records:
 # Actually start the normal query now
 
 if (EXCLUDE_TEMP_USERS):
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%' AND (NOT abalobi_usertype__c LIKE '%manager%') AND (NOT abalobi_id__c LIKE '%tmp%')"
+    query_text = "SELECT abalobi_id__c,Name,primary_community__c,abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%' AND  (NOT abalobi_id__c LIKE '%tmp%')"
+    ""
+
     print "Excluding temporary users!"
 else:
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%' AND (NOT abalobi_usertype__c LIKE '%manager%')"
+    query_text = "SELECT abalobi_id__c, Name, primary_community__c, abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'"
 
 
 result, num_records, records = run_soql_query(sfc, query_text)
@@ -175,10 +177,13 @@ with open('datafiles/csv/List_Fishers.csv', 'wb') as csvfile:
                 "community"
             ])
             for record in records:
-                wr.writerow([
-                    record['abalobi_id__c'],
-                    record['Name'],
-                    record['primary_community__c']])
+                # check for fishers  - exclude fisher_managers who are not fishers.  field may have multiple comma-separated roles
+                roles = str.split(str(record['abalobi_usertype__c']), ',')
+                if 'fisher' in roles:
+                    wr.writerow([
+                        record['abalobi_id__c'],
+                        record['Name'],
+                        record['primary_community__c']])
             # For loop ends here, write end of file
             # wr.writerow([
             #     "not_on_list",
