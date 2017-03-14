@@ -156,12 +156,12 @@ for record in records:
 # Actually start the normal query now
 
 if (EXCLUDE_TEMP_USERS):
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c,abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%' AND  (NOT abalobi_id__c LIKE '%tmp%')"
+    query_text = "SELECT abalobi_id__c,Name,primary_community__c,abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE  AND  (NOT abalobi_id__c LIKE '%tmp%')"
     ""
 
     print "Excluding temporary users!"
 else:
-    query_text = "SELECT abalobi_id__c, Name, primary_community__c, abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'"
+    query_text = "SELECT abalobi_id__c, Name, primary_community__c, abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE"
 
 
 result, num_records, records = run_soql_query(sfc, query_text)
