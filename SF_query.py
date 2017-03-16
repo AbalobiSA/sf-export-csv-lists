@@ -117,7 +117,7 @@ with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
 #   Section 3: Communities
 # ====================================================
 
-query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c FROM Ablb_Community__c'
+query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c FROM Ablb_Community__c ORDER BY name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
@@ -156,12 +156,12 @@ for record in records:
 # Actually start the normal query now
 
 if (EXCLUDE_TEMP_USERS):
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c,abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE  AND  (NOT abalobi_id__c LIKE '%tmp%')"
+    query_text = "SELECT abalobi_id__c,Name,primary_community__c,abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE  AND  (NOT abalobi_id__c LIKE '%tmp%')  ORDER BY primary_community__c, Name"
     ""
 
     print "Excluding temporary users!"
 else:
-    query_text = "SELECT abalobi_id__c, Name, primary_community__c, abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE"
+    query_text = "SELECT abalobi_id__c, Name, primary_community__c, abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE ORDER BY primary_community__c, Name"
 
 
 result, num_records, records = run_soql_query(sfc, query_text)
@@ -200,7 +200,7 @@ with open('datafiles/csv/List_Fishers.csv', 'wb') as csvfile:
 # ====================================================
 
 
-query_text = 'SELECT name_afr__c,name_eng__c,Name,lkup_community_id__c FROM Ablb_Landing_Site__c'
+query_text = 'SELECT name_afr__c,name_eng__c,Name,lkup_community_id__c FROM Ablb_Landing_Site__c  ORDER BY Name'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 query_community = 'SELECT Id,Name FROM Ablb_Community__c'
@@ -266,7 +266,7 @@ with open('datafiles/csv/List_NoTrip_Reasons.csv', 'wb') as csvfile:
 #   Section 7: Species
 # ====================================================
 
-query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c FROM Ablb_Species__c'
+query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c FROM Ablb_Species__c ORDER BY priority__c,name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
