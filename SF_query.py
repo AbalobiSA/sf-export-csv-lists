@@ -261,7 +261,8 @@ with open('List_NoTrip_Reasons.csv', 'wb') as csvfile:
 #   Section 7: Species
 # ====================================================
 
-query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c FROM Ablb_Species__c'
+query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c,priority_shore__c,region__c FROM Ablb_Species__c'
+
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('List_Species.csv', 'wb') as csvfile:
@@ -274,7 +275,9 @@ with open('List_Species.csv', 'wb') as csvfile:
                 "name_Eng",
                 "name_Afr",
                 "image",
-                "sortby"
+                "sortby",
+                "soryby_shore",
+                "region"
             ])
             for record in records:
                 wr.writerow([
@@ -282,5 +285,8 @@ with open('List_Species.csv', 'wb') as csvfile:
                     record['name_eng__c'],
                     record['name_afr__c'],
                     record['image_file__c'],
-                    str(record['priority__c']).replace('.0','')])
+                    str(record['priority__c']).replace('.0', ''),
+                    str(record['priority_shore__c']).replace('.0', '').replace('None', '0'),
+                    record['region__c']
+                ])
         print 'Writing Complete!\r\n'
