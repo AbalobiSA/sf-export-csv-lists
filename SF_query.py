@@ -120,7 +120,8 @@ with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
 #   Section 3: Communities
 # ====================================================
 
-query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c FROM Ablb_Community__c ORDER BY name_eng__c'
+query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c,' \
+             'region__c FROM Ablb_Community__c ORDER BY name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
@@ -132,14 +133,16 @@ with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
                 "name_key",
                 "province",
                 "name_Eng",
-                "name_Afr"
+                "name_Afr",
+                "region"
             ])
             for record in records:
                 wr.writerow([
                     record['Name'],
                     record['province_abbreviation__c'],
                     record['name_eng__c'],
-                    record['name_afr__c']])
+                    record['name_afr__c'],
+                    record['region__c']])
         print 'Writing Complete!\r\n'
 
 # ====================================================
