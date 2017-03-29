@@ -91,7 +91,7 @@ with open('datafiles/csv/List_BaitTypes.csv', 'wb') as csvfile:
 # ====================================================
 
 
-query_text = 'SELECT Name,name_afr__c,name_eng__c,trip_type__c FROM Ablb_Catch_Method__c'
+query_text = 'SELECT Name,name_afr__c,name_eng__c,trip_type__c,image_file__c FROM Ablb_Catch_Method__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
@@ -103,14 +103,17 @@ with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
                 "name_key",
                 "name_Eng",
                 "name_Afr",
-                "trip_type"
+                "trip_type",
+                "image_filename"
             ])
             for record in records:
                 wr.writerow([
                     record['Name'],
                     record['name_eng__c'],
                     record['name_afr__c'],
-                    record['trip_type__c']])
+                    record['trip_type__c'],
+                    record['image_file__c']
+                ])
         print 'Writing Complete!\r\n'
 
 # ====================================================
