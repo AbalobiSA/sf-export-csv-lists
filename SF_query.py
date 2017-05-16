@@ -91,7 +91,7 @@ with open('datafiles/csv/List_BaitTypes.csv', 'wb') as csvfile:
 # ====================================================
 
 
-query_text = 'SELECT Name,name_afr__c,name_eng__c,trip_type__c FROM Ablb_Catch_Method__c'
+query_text = 'SELECT Name,name_afr__c,name_eng__c,trip_type__c,image_file__c FROM Ablb_Catch_Method__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
@@ -103,21 +103,25 @@ with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
                 "name_key",
                 "name_Eng",
                 "name_Afr",
-                "trip_type"
+                "trip_type",
+                "image_filename"
             ])
             for record in records:
                 wr.writerow([
                     record['Name'],
                     record['name_eng__c'],
                     record['name_afr__c'],
-                    record['trip_type__c']])
+                    record['trip_type__c'],
+                    record['image_file__c']
+                ])
         print 'Writing Complete!\r\n'
 
 # ====================================================
 #   Section 3: Communities
 # ====================================================
 
-query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c FROM Ablb_Community__c ORDER BY name_eng__c'
+query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c,' \
+             'region__c FROM Ablb_Community__c ORDER BY name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
@@ -129,14 +133,16 @@ with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
                 "name_key",
                 "province",
                 "name_Eng",
-                "name_Afr"
+                "name_Afr",
+                "region"
             ])
             for record in records:
                 wr.writerow([
                     record['Name'],
                     record['province_abbreviation__c'],
                     record['name_eng__c'],
-                    record['name_afr__c']])
+                    record['name_afr__c'],
+                    record['region__c']])
         print 'Writing Complete!\r\n'
 
 # ====================================================
@@ -266,7 +272,7 @@ with open('datafiles/csv/List_NoTrip_Reasons.csv', 'wb') as csvfile:
 #   Section 7: Species
 # ====================================================
 
-query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c FROM Ablb_Species__c ORDER BY priority__c,name_eng__c'
+query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c,priority_shore__c,region__c FROM Ablb_Species__c ORDER BY priority__c,name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
@@ -279,7 +285,9 @@ with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
                 "name_Eng",
                 "name_Afr",
                 "image",
-                "sortby"
+                "sortby",
+                "soryby_shore",
+                "region"
             ])
             for record in records:
                 wr.writerow([
@@ -287,5 +295,8 @@ with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
                     record['name_eng__c'],
                     record['name_afr__c'],
                     record['image_file__c'],
-                    str(record['priority__c']).replace('.0','')])
+                    str(record['priority__c']).replace('.0', ''),
+                    str(record['priority_shore__c']).replace('.0', '').replace('None', '0'),
+                    record['region__c']
+                ])
         print 'Writing Complete!\r\n'
