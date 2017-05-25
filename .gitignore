@@ -5,3 +5,4 @@ secrets.py
 secrets.pyc
 password_fetcher.py
 verificator.py
+.idea/
