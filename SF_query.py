@@ -19,13 +19,17 @@ DEBUG = False
 # ====================================================
 #   Query Method
 # ====================================================
+
+
 def run_soql_query(sfs, soql_query):
     try:
         print '---------------\r\nRunning query...'
+
         sf_result = sfs.query_all(soql_query)
         records = sf_result['records']
         num_records = sf_result['totalSize']
         result = sf_result['done']
+
         print '                  done.\r\n'
         print 'Result: ' + str(result) + ', num_records: ' + str(num_records)
         return result, num_records, records
@@ -47,8 +51,7 @@ def connect_to_salesforce():
         sec_token = secrets.SALESFORCE_SEC_TOKEN
 
     print 'Connecting to SF with username: ' + user + '...'
-    sfc = Salesforce(username=user, password=passwd,
-                     security_token=sec_token)
+    sfc = Salesforce(username=user, password=passwd, security_token=sec_token)
 
     print '                    done.\r\n'
     return sfc
@@ -59,7 +62,7 @@ sfc = connect_to_salesforce()
 #   Section 1: Bait Types
 # ====================================================
 
-query_text = 'SELECT Name,name_afr__c,name_eng__c FROM Ablb_Bait_Types__c'
+query_text = 'SELECT Name, name_afr__c, name_eng__c FROM Ablb_Bait_Types__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 # write_csv('mycsv.csv',records)
 
@@ -69,7 +72,7 @@ result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_BaitTypes.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_BaitTypes.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -84,6 +87,7 @@ with open('datafiles/csv/List_BaitTypes.csv', 'wb') as csvfile:
                     record['name_afr__c']])
                 # print record['Name'] + ': ' + record['display_name__c'] + ', ' + \
                 #     record['province_abbreviation__c']
+
         print 'Writing Complete!\r\n'
 
 # ====================================================
@@ -91,12 +95,12 @@ with open('datafiles/csv/List_BaitTypes.csv', 'wb') as csvfile:
 # ====================================================
 
 
-query_text = 'SELECT Name,name_afr__c,name_eng__c,trip_type__c,image_file__c FROM Ablb_Catch_Method__c'
+query_text = 'SELECT Name, name_afr__c, name_eng__c, trip_type__c, image_file__c FROM Ablb_Catch_Method__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_CatchMethods.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -114,19 +118,19 @@ with open('datafiles/csv/List_CatchMethods.csv', 'wb') as csvfile:
                     record['trip_type__c'],
                     record['image_file__c']
                 ])
+
         print 'Writing Complete!\r\n'
 
 # ====================================================
 #   Section 3: Communities
 # ====================================================
 
-query_text = 'SELECT name_afr__c,name_eng__c,Name,province_abbreviation__c,' \
-             'region__c FROM Ablb_Community__c ORDER BY name_eng__c'
+query_text = 'SELECT name_afr__c, name_eng__c, Name, province_abbreviation__c, region__c FROM Ablb_Community__c ORDER BY name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_Communities.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -143,6 +147,7 @@ with open('datafiles/csv/List_Communities.csv', 'wb') as csvfile:
                     record['name_eng__c'],
                     record['name_afr__c'],
                     record['region__c']])
+
         print 'Writing Complete!\r\n'
 
 # ====================================================
@@ -161,20 +166,20 @@ for record in records:
 
 # Actually start the normal query now
 
-if (EXCLUDE_TEMP_USERS):
-    query_text = "SELECT abalobi_id__c,Name,primary_community__c,abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE  AND  (NOT abalobi_id__c LIKE '%tmp%')  ORDER BY primary_community__c, Name"
+if EXCLUDE_TEMP_USERS:
+    query_text = "SELECT abalobi_id__c, Name__c, primary_community__c, abalobi_usertype__c FROM Ablb_User__c WHERE abalobi_usertype__c LIKE '%fisher%' AND IsActive__c=TRUE AND (NOT abalobi_id__c LIKE '%tmp%') ORDER BY primary_community__c, Name__c"
     ""
 
     print "Excluding temporary users!"
 else:
-    query_text = "SELECT abalobi_id__c, Name, primary_community__c, abalobi_usertype__c FROM User WHERE abalobi_usertype__c LIKE '%fisher%'  AND IsActive=TRUE ORDER BY primary_community__c, Name"
+    query_text = "SELECT abalobi_id__c, Name__c, primary_community__c, abalobi_usertype__c FROM Ablb_User__c WHERE abalobi_usertype__c LIKE '%fisher%' AND IsActive__c=TRUE ORDER BY primary_community__c, Name__c"
 
 
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Fishers.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_Fishers.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -188,7 +193,7 @@ with open('datafiles/csv/List_Fishers.csv', 'wb') as csvfile:
                 if 'fisher' in roles:
                     wr.writerow([
                         record['abalobi_id__c'],
-                        record['Name'],
+                        record['Name__c'],
                         record['primary_community__c']])
             # For loop ends here, write end of file
             # wr.writerow([
@@ -206,28 +211,26 @@ with open('datafiles/csv/List_Fishers.csv', 'wb') as csvfile:
 # ====================================================
 
 
-query_text = 'SELECT name_afr__c,name_eng__c,Name,lkup_community_id__c FROM Ablb_Landing_Site__c  ORDER BY Name'
+query_text = 'SELECT name_afr__c, name_eng__c, Name, lkup_community_id__c FROM Ablb_Landing_Site__c ORDER BY Name'
 result, num_records, records = run_soql_query(sfc, query_text)
 
-query_community = 'SELECT Id,Name FROM Ablb_Community__c'
+query_community = 'SELECT Id, Name FROM Ablb_Community__c'
 result2, num_records2, records2 = run_soql_query(sfc, query_community)
 
 
 def getNameFromID(lookupID):
-    if (DEBUG):
+    if DEBUG:
         print "Searching on lookup id: " + str(lookupID)
     for record in records2:
         # print record['Id']
-        if (str(lookupID) == str(record['Id'])):
-            if (DEBUG):
+        if str(lookupID) == str(record['Id']):
+            if DEBUG:
                 print "MATCH FOUND: " + str(record['Name'])
             return record['Name']
 
-
-
 with open('datafiles/csv/List_LandingSites.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_LandingSites.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -242,18 +245,19 @@ with open('datafiles/csv/List_LandingSites.csv', 'wb') as csvfile:
                     getNameFromID(record['lkup_community_id__c']),
                     record['name_eng__c'],
                     record['name_afr__c']])
+
         print 'Writing Complete!\r\n'
 
 # ====================================================
 #   Section 6: NoTrip_Reasons
 # ====================================================
 
-query_text = 'SELECT Name,name_afr__c,name_eng__c FROM Ablb_No_Trip_Reason__c'
+query_text = 'SELECT Name, name_afr__c, name_eng__c FROM Ablb_No_Trip_Reason__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_NoTrip_Reasons.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_NoTrip_Reasons.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -266,18 +270,19 @@ with open('datafiles/csv/List_NoTrip_Reasons.csv', 'wb') as csvfile:
                     record['Name'],
                     record['name_eng__c'],
                     record['name_afr__c']])
+
         print 'Writing Complete!\r\n'
 
 # ====================================================
 #   Section 7: Species
 # ====================================================
 
-query_text = 'SELECT image_file__c,Name,name_afr__c,name_eng__c,priority__c,priority_shore__c,region__c FROM Ablb_Species__c ORDER BY priority__c,name_eng__c'
+query_text = 'SELECT image_file__c, Name, name_afr__c, name_eng__c, priority__c, priority_shore__c, region__c FROM Ablb_Species__c ORDER BY priority__c, name_eng__c'
 result, num_records, records = run_soql_query(sfc, query_text)
 
 with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
-    if (result is not None) & (num_records > 0):
+    if result is not None and num_records > 0:
         print '\nWRITING List_Species.csv ...'
         if num_records > 0:
             wr.writerow([
@@ -299,4 +304,5 @@ with open('datafiles/csv/List_Species.csv', 'wb') as csvfile:
                     str(record['priority_shore__c']).replace('.0', '').replace('None', '0'),
                     record['region__c']
                 ])
+
         print 'Writing Complete!\r\n'
