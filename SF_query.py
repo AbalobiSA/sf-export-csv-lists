@@ -1,7 +1,6 @@
 from simple_salesforce import Salesforce
 import getpass
 import csv
-import os
 
 try:
     import secrets
@@ -21,14 +20,6 @@ DEBUG = False
 # ====================================================
 #   Query Method
 # ====================================================
-
-if not os.path.exists('datafiles'):
-    print "'datafiles' folder does not exist. Creating it... "
-    os.mkdir('datafiles')
-
-if not os.path.exists('datafiles/csv'):
-    print "'csv' folder does not exist. Creating it... "
-    os.mkdir('datafiles/csv')
 
 
 def run_soql_query(sfs, soql_query):
